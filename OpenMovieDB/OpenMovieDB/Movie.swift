@@ -13,6 +13,7 @@ class Movie {
     var title = ""
     var year = ""
     var posterImage: URL?
+    var imdbID = ""
     init() {
         
     }
@@ -20,13 +21,15 @@ class Movie {
     init?(json: [String: Any]) {
         guard let title = json["Title"] as? String,
             let year = json["Year"] as? String,
-            let posterUrl = json["Poster"] as? String
+            let posterUrl = json["Poster"] as? String,
+            let imdbID = json["imdbID"] as? String
         else {
                 return nil
         }
         self.title = title
         self.year = year
         self.posterImage = URL(string: posterUrl)
+        self.imdbID = imdbID
     }
 }
 

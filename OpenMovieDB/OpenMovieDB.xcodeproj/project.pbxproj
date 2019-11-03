@@ -17,6 +17,7 @@
 		2414995E236ECDC10070F500 /* MovieTableViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2414995D236ECDC10070F500 /* MovieTableViewCell.swift */; };
 		24149960236ECF0F0070F500 /* MoviesDBModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2414995F236ECF0F0070F500 /* MoviesDBModel.swift */; };
 		24149962236ED4AA0070F500 /* Movie.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24149961236ED4AA0070F500 /* Movie.swift */; };
+		24149964236F18BD0070F500 /* MovieDetailsViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24149963236F18BD0070F500 /* MovieDetailsViewController.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -53,6 +54,7 @@
 		2414995D236ECDC10070F500 /* MovieTableViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieTableViewCell.swift; sourceTree = "<group>"; };
 		2414995F236ECF0F0070F500 /* MoviesDBModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MoviesDBModel.swift; sourceTree = "<group>"; };
 		24149961236ED4AA0070F500 /* Movie.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Movie.swift; sourceTree = "<group>"; };
+		24149963236F18BD0070F500 /* MovieDetailsViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieDetailsViewController.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -104,6 +106,7 @@
 			isa = PBXGroup;
 			children = (
 				24149930236EC6DD0070F500 /* ViewController.swift */,
+				24149963236F18BD0070F500 /* MovieDetailsViewController.swift */,
 				2414995F236ECF0F0070F500 /* MoviesDBModel.swift */,
 				24149961236ED4AA0070F500 /* Movie.swift */,
 				24149932236EC6DD0070F500 /* Main.storyboard */,
@@ -275,6 +278,7 @@
 			files = (
 				24149960236ECF0F0070F500 /* MoviesDBModel.swift in Sources */,
 				24149931236EC6DD0070F500 /* ViewController.swift in Sources */,
+				24149964236F18BD0070F500 /* MovieDetailsViewController.swift in Sources */,
 				2414992F236EC6DD0070F500 /* AppDelegate.swift in Sources */,
 				2414995E236ECDC10070F500 /* MovieTableViewCell.swift in Sources */,
 				24149962236ED4AA0070F500 /* Movie.swift in Sources */,
