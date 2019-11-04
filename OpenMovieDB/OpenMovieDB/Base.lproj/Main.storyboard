@@ -122,13 +122,37 @@
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
                                 <cells>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" id="Ao6-cE-6cw">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="movieDetailCell" id="Ao6-cE-6cw" customClass="MovieInfoCollectionViewCell" customModule="OpenMovieDB" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="0.0" width="113" height="106"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">
                                             <rect key="frame" x="0.0" y="0.0" width="113" height="106"/>
                                             <autoresizingMask key="autoresizingMask"/>
+                                            <subviews>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Param" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="hSC-lj-CXF">
+                                                    <rect key="frame" x="32" y="21.5" width="49" height="20.5"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="info" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="L2g-Qw-Eaw">
+                                                    <rect key="frame" x="42" y="42.5" width="29" height="21"/>
+                                                    <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                                                    <nil key="textColor"/>
+                                                    <nil key="highlightedColor"/>
+                                                </label>
+                                            </subviews>
                                         </view>
+                                        <constraints>
+                                            <constraint firstItem="L2g-Qw-Eaw" firstAttribute="centerY" secondItem="Ao6-cE-6cw" secondAttribute="centerY" id="Zjs-1s-z0s"/>
+                                            <constraint firstItem="L2g-Qw-Eaw" firstAttribute="centerX" secondItem="Ao6-cE-6cw" secondAttribute="centerX" id="b5h-yM-79O"/>
+                                            <constraint firstItem="hSC-lj-CXF" firstAttribute="centerX" secondItem="Ao6-cE-6cw" secondAttribute="centerX" id="sQ3-5l-hIH"/>
+                                            <constraint firstItem="L2g-Qw-Eaw" firstAttribute="top" secondItem="hSC-lj-CXF" secondAttribute="bottom" constant="0.5" id="uBN-bU-xns"/>
+                                        </constraints>
+                                        <connections>
+                                            <outlet property="infoLabel" destination="L2g-Qw-Eaw" id="eR6-d9-9yy"/>
+                                            <outlet property="paramLabel" destination="hSC-lj-CXF" id="4Qj-lR-Tet"/>
+                                        </connections>
                                     </collectionViewCell>
                                 </cells>
                             </collectionView>
@@ -136,6 +160,9 @@
                         <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                         <viewLayoutGuide key="safeArea" id="qGs-ob-dlF"/>
                     </view>
+                    <connections>
+                        <outlet property="movieInfoCollectionView" destination="I55-As-AUI" id="9YB-Zn-K0Q"/>
+                    </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="qCk-41-L0g" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>

@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		240DD5BD2370633E000E1D32 /* MovieInfoCollectionViewCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 240DD5BC2370633E000E1D32 /* MovieInfoCollectionViewCell.swift */; };
 		2414992F236EC6DD0070F500 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2414992E236EC6DD0070F500 /* AppDelegate.swift */; };
 		24149931236EC6DD0070F500 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 24149930236EC6DD0070F500 /* ViewController.swift */; };
 		24149934236EC6DD0070F500 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 24149932236EC6DD0070F500 /* Main.storyboard */; };
@@ -38,6 +39,7 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		240DD5BC2370633E000E1D32 /* MovieInfoCollectionViewCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MovieInfoCollectionViewCell.swift; sourceTree = "<group>"; };
 		2414992B236EC6DD0070F500 /* OpenMovieDB.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = OpenMovieDB.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		2414992E236EC6DD0070F500 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		24149930236EC6DD0070F500 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -113,6 +115,7 @@
 				2414995D236ECDC10070F500 /* MovieTableViewCell.swift */,
 				2414993A236EC6DE0070F500 /* Info.plist */,
 				2414995C236EC6FD0070F500 /* Supporting Files */,
+				240DD5BC2370633E000E1D32 /* MovieInfoCollectionViewCell.swift */,
 			);
 			path = OpenMovieDB;
 			sourceTree = "<group>";
@@ -282,6 +285,7 @@
 				2414992F236EC6DD0070F500 /* AppDelegate.swift in Sources */,
 				2414995E236ECDC10070F500 /* MovieTableViewCell.swift in Sources */,
 				24149962236ED4AA0070F500 /* Movie.swift in Sources */,
+				240DD5BD2370633E000E1D32 /* MovieInfoCollectionViewCell.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
