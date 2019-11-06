@@ -71,9 +71,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.movieDBModel.fetchMovieData(at: indexPath.row)
     }
     
-    //get image by url
+    //get image by url into cell
     //from: https://stackoverflow.com/a/27712427
     func downloadImage(from url: URL, into cell: MovieTableViewCell) {
+        //if exist old image remove it, and add spining wheel
+        cell.movieImage.image = nil
+        cell.imageSpiningWheel.startAnimating()
         print("Download Started")
         getData(from: url) { data, response, error in
             guard let data = data, error == nil else { return }
@@ -81,6 +84,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             print("Download Finished")
             DispatchQueue.main.async() {
                 cell.movieImage.image = UIImage(data: data)
+                //remove spining wheel
+                cell.imageSpiningWheel.stopAnimating()
+                cell.imageSpiningWheel.isHidden = true
             }
         }
     }

@@ -110,12 +110,12 @@
 				24149930236EC6DD0070F500 /* ViewController.swift */,
 				24149963236F18BD0070F500 /* MovieDetailsViewController.swift */,
 				2414995F236ECF0F0070F500 /* MoviesDBModel.swift */,
-				24149961236ED4AA0070F500 /* Movie.swift */,
 				24149932236EC6DD0070F500 /* Main.storyboard */,
 				2414995D236ECDC10070F500 /* MovieTableViewCell.swift */,
+				240DD5BC2370633E000E1D32 /* MovieInfoCollectionViewCell.swift */,
+				24149961236ED4AA0070F500 /* Movie.swift */,
 				2414993A236EC6DE0070F500 /* Info.plist */,
 				2414995C236EC6FD0070F500 /* Supporting Files */,
-				240DD5BC2370633E000E1D32 /* MovieInfoCollectionViewCell.swift */,
 			);
 			path = OpenMovieDB;
 			sourceTree = "<group>";

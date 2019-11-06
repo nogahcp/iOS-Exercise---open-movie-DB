@@ -35,7 +35,10 @@ class MoviesDBModel {
     //contains current selected movie details (in a key, value form)
     var details: [String: Any] = [:]
     var delegate: MoviesDBModelDelegate? = nil
+    //keep all relevant params for the controller
+    var paramsOrder = ["Title", "Poster", "Year", "Genre"]
 
+    
     private func getMovieDetailsUrlString(id: String) -> URL? {
         return URL(string: "https://www.omdbapi.com/?i=\(id)&apikey=\(self.APIKey)")
     }
@@ -75,6 +78,7 @@ class MoviesDBModel {
                 }
                 //copy movies to real array, if not first page - add to previus array
                 self.page == 1 ? self.movies = tempArr : self.movies.append(contentsOf: tempArr)
+//                self.movies = tempArr
             }
             
         }
@@ -112,8 +116,20 @@ class MoviesDBModel {
         do {
             //create new movies array
             self.details = [:]
+            self.paramsOrder = ["Title", "Poster", "Year", "Genre"]
             //convert data to json
             self.details = try (JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : Any])!
+            //remove NA info
+            self.details = self.details.filter { $0.value as? String != nil && $0.value as? String != "N/A" }
+            //add params name to array
+            Array(self.details.keys).forEach({
+                if !self.paramsOrder.contains($0) {
+                    self.paramsOrder.append($0)
+                }
+            })
+            //remove response from params and details
+            if let index = self.paramsOrder.firstIndex(of: "Response") { self.paramsOrder.remove(at: index) }
+            if let index = self.details.index(forKey: "Response") { self.details.remove(at: index) }
         }
         catch let error {
             print(error.localizedDescription)

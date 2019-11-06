@@ -11,7 +11,7 @@ import UIKit
 class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource {
 
     var movieDBModel = MoviesDBModel()
-
+    
     @IBOutlet weak var movieInfoCollectionView: UICollectionView!
     
     override func viewDidLoad() {
@@ -30,14 +30,14 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
     //create cell and return
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         let cell = self.movieInfoCollectionView.dequeueReusableCell(withReuseIdentifier: "movieDetailCell", for: indexPath) as! MovieInfoCollectionViewCell
-        //get param and info
-        let currParam = Array(self.movieDBModel.details.keys)[indexPath.row]
+        //get param name from model
+        let currParam = self.movieDBModel.paramsOrder[indexPath.row]
+        //get param info
         cell.paramLabel.text = currParam
-        
         guard let currInfo = self.movieDBModel.details[currParam] as? String
             else {
                 return cell
-                }
+            }
         cell.infoLabel.text = currInfo
         return cell
     }
