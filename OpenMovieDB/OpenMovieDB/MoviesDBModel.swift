@@ -47,7 +47,7 @@ class MoviesDBModel {
         //get data from server
         let task = URLSession.shared.dataTask(with: searchUrl!) {(data, response, error) in
             guard let data = data else { return }
-            print(String(data: data, encoding: .utf8)!)
+            print(String(data: data, encoding: .utf8)! + "page: \(self.page)")
             //update data from response
             self.updateMovies(from: data)
         }
@@ -61,6 +61,11 @@ class MoviesDBModel {
             var tempArr: [Movie] = []
             //convert data to json
             var json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : Any]
+            //if no data retreived - if first page show nothing, show what exist
+            guard json?["Response"]! as! String == "True" else {
+                if self.page == 1 { self.movies = [] }
+                return
+            }
             //go throw all returned movies and add to list
             if let movies = json?["Search"] as? [Any]{
                 for m in movies {

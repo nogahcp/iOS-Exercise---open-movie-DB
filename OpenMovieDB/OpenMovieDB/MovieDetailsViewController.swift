@@ -43,6 +43,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
                 return cell
             }
         cell.infoLabel.text = currInfo
+        cell.updateCellHeight()
         return cell
     }
     
@@ -66,6 +67,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
     private func downloadImage(from url: URL, into cell: ImageCollectionViewCell) {
         //if exist old image remove it, and add spining wheel
         cell.imageView.image = nil
+        cell.spinningWheel.isHidden = false
         cell.spinningWheel.startAnimating()
         print("Download Started")
         url.getData(from: url) { data, response, error in

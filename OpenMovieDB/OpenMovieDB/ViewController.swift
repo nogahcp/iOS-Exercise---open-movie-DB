@@ -66,6 +66,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func downloadImage(from url: URL, into cell: MovieTableViewCell) {
         //if exist old image remove it, and add spining wheel
         cell.movieImage.image = nil
+        cell.imageSpiningWheel.isHidden = false
         cell.imageSpiningWheel.startAnimating()
         print("Download Started")
         url.getData(from: url) { data, response, error in
@@ -89,6 +90,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         //search only for 2 letters or more
         if searchText.count > 1 {
             self.movieDBModel.searchMovies(for: searchText)
+        }
+        //if search is clean, clean results
+        if searchText.count == 0 {
+            self.movieDBModel.searchMovies(for: "")
         }
     }
 
