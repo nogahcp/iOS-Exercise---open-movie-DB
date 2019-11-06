@@ -12,8 +12,9 @@ class MovieInfoCollectionViewCell: UICollectionViewCell {
     
     override func awakeFromNib() {
         super.awakeFromNib()
+        // designe cell
+        
     }
-
     
     @IBOutlet weak var paramLabel: UILabel!
     @IBOutlet weak var infoLabel: UILabel!

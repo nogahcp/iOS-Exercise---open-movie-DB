@@ -8,20 +8,29 @@
 
 import UIKit
 
-class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate {
-
-    override func viewDidLoad() {
-        super.viewDidLoad()
-        self.moviesTableView.delegate = self
-        self.moviesTableView.dataSource = self
-        self.moviesSearckBar.delegate = self
-        
-    }
+class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSource, UISearchBarDelegate, MoviesDBModelDelegate {
+    
     @IBOutlet weak var moviesTableView: UITableView!
     @IBOutlet weak var moviesSearckBar: UISearchBar!
     
     //model - fetch and contains the data
     var movieDBModel = MoviesDBModel()
+    
+    
+    override func viewDidLoad() {
+        super.viewDidLoad()
+        self.moviesTableView.delegate = self
+        self.moviesTableView.dataSource = self
+        self.moviesSearckBar.delegate = self
+        self.movieDBModel.delegate = self
+    }
+
+    
+//    var movies = MoviesDBModel().movies {
+//        didSet {
+//            self.moviesTableView.reloadData()
+//        }
+//    }
     
     /*
      table view
@@ -34,7 +43,13 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //return cell for row
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         let cell = self.moviesTableView.dequeueReusableCell(withIdentifier: "movieCell") as! MovieTableViewCell
-        
+        guard indexPath.row < self.movieDBModel.movies.count else {
+            return cell;
+        }
+        //fetch more movies when getting to the table end
+        if indexPath.row == (self.movieDBModel.movies.count - 1) {
+            self.movieDBModel.getMoreResults()
+        }
         let movie = self.movieDBModel.movies[indexPath.row]
         //set cell data
         if let url = movie.posterImage {
@@ -47,6 +62,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //return cell hight for row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
+        //TODO: change!!
         return 100;
     }
     
@@ -68,6 +84,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
     }
+    
     //Create a method with a completion handler to get the image data from your url
     func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
         URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
@@ -80,10 +97,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func searchBar(_ searchBar: UISearchBar, textDidChange searchText: String) {
         //search only for 2 letters or more
         if searchText.count > 1 {
-            self.movieDBModel.fetchData(for: searchText)
-            DispatchQueue.main.async {
-                self.moviesTableView.reloadData()
-            }
+            self.movieDBModel.searchMovies(for: searchText)
         }
     }
 
@@ -101,5 +115,11 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             }
         }
     }
+    
+    //movieDBModel delegate method - update movies table when list in model is changed
+    func moviesDidChange() {
+        DispatchQueue.main.async {
+            self.moviesTableView.reloadData()
+    }    }
 }
 

@@ -9,31 +9,48 @@
 import Foundation
 
 class MoviesDBModel {
-    lazy private var searchUrl = URL(string: self.urlString)
-
+    //class properties
+    private var searchUrl: URL? {
+        get {
+            return URL(string: self.urlString)
+        }
+    }
     private let APIKey = "b3db097d"
     var search = ""
     private var urlString: String {
         get {
-            return "https://www.omdbapi.com/?s=\(self.search)&apikey=\(self.APIKey)&page=1"
+            return "https://www.omdbapi.com/?s=\(self.search)&apikey=\(self.APIKey)&page=\(self.page)"
         }
     }
+    //for fetching more than 10 movies, keep trach on what page we are in sreach
+    private var page = 1
+    //contains all current movies answer to query - update delegate when change
+    var movies:[Movie] = [] {
+        didSet {
+            delegate?.moviesDidChange()
+        }
+    }
+    //contains current movie full details
+    var detailedMovie: Movie?
+    //contains current selected movie details (in a key, value form)
+    var details: [String: Any] = [:]
+    var delegate: MoviesDBModelDelegate? = nil
+
     private func getMovieDetailsUrlString(id: String) -> URL? {
         return URL(string: "https://www.omdbapi.com/?i=\(id)&apikey=\(self.APIKey)")
     }
     
-    //contains all current movies answer to query
-    var movies:[Movie] = []
-    //contains current movie full details
-    var detailedMovie: Movie?
-    var details: [String: Any] = [:]
-    
-    init() {
-        self.fetchData(for: "lion")
+    //new search using search string
+    func searchMovies(for search: String) {
+        //trim white spaces and replace others with +
+        self.search = search.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: " ", with: "+")
+        //new search - update page to 1
+        self.page = 1
+        self.fetchData()
     }
     
-    func fetchData(for search: String) {
-        self.search = search
+    //fetch list of movies using the search string
+    private func fetchData() {
         //get data from server
         let task = URLSession.shared.dataTask(with: searchUrl!) {(data, response, error) in
             guard let data = data else { return }
@@ -49,7 +66,6 @@ class MoviesDBModel {
         do {
             //create new movies array
             var tempArr: [Movie] = []
-            self.movies = []
             //convert data to json
             var json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : Any]
             //go throw all returned movies and add to list
@@ -57,14 +73,19 @@ class MoviesDBModel {
                 for m in movies {
                     tempArr.append(Movie(json: m as! [String : Any]) ?? Movie())
                 }
-                //copy movies to real array
-                self.movies = tempArr
+                //copy movies to real array, if not first page - add to previus array
+                self.page == 1 ? self.movies = tempArr : self.movies.append(contentsOf: tempArr)
             }
             
         }
         catch let error {
             print(error.localizedDescription)
         }
+    }
+    
+    func getMoreResults() {
+        self.page += 1
+        self.fetchData()
     }
     
     //get full details on spesific movie
@@ -86,7 +107,7 @@ class MoviesDBModel {
         }
     }
     
-    //get response from server and update list of movies
+    //get response from server and update movies details
     private func updateMovieDetails(from data: Data) {
         do {
             //create new movies array
@@ -99,5 +120,9 @@ class MoviesDBModel {
         }
     }
     
+}
+
+protocol MoviesDBModelDelegate {
+    func moviesDidChange()
 }
 
