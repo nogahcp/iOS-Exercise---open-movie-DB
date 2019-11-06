@@ -27,13 +27,21 @@ class MoviesDBModel {
     //contains all current movies answer to query - update delegate when change
     var movies:[Movie] = [] {
         didSet {
-            delegate?.moviesDidChange()
+            delegate?.moviesDidChange?()
         }
     }
     //contains current movie full details
-    var detailedMovie: Movie?
+    var detailedMovie: Movie? {
+        didSet {
+            delegate?.movieDetailsUpdate?()
+        }
+    }
     //contains current selected movie details (in a key, value form)
-    var details: [String: Any] = [:]
+    var details: [String: Any] = [:] {
+        didSet {
+            delegate?.movieDetailsUpdate?()
+        }
+    }
     var delegate: MoviesDBModelDelegate? = nil
     //keep all relevant params for the controller
     var paramsOrder = ["Title", "Poster", "Year", "Genre"]
@@ -138,7 +146,9 @@ class MoviesDBModel {
     
 }
 
-protocol MoviesDBModelDelegate {
-    func moviesDidChange()
+@objc protocol MoviesDBModelDelegate {
+    @objc optional func moviesDidChange()
+    @objc optional func movieDetailsUpdate()
 }
+
 

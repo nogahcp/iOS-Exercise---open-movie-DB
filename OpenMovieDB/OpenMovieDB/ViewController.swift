@@ -78,7 +78,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.movieImage.image = nil
         cell.imageSpiningWheel.startAnimating()
         print("Download Started")
-        getData(from: url) { data, response, error in
+        url.getData(from: url) { data, response, error in
             guard let data = data, error == nil else { return }
             print(response?.suggestedFilename ?? url.lastPathComponent)
             print("Download Finished")
@@ -91,10 +91,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    //Create a method with a completion handler to get the image data from your url
-    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
-    }
+//    //Create a method with a completion handler to get the image data from your url
+//    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+//        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+//    }
     
     /*
      search bar
@@ -129,3 +129,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     }    }
 }
 
+extension URL {
+    //from: https://stackoverflow.com/a/27712427 Create a method with a completion handler to get the image data from url
+    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
+        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
+    }
+}
