@@ -112,9 +112,9 @@
 			isa = PBXGroup;
 			children = (
 				24149930236EC6DD0070F500 /* ViewController.swift */,
+				2414995F236ECF0F0070F500 /* MoviesDBModel.swift */,
 				24149963236F18BD0070F500 /* MovieDetailsViewController.swift */,
 				245A1F1A2372EE33002716B2 /* MovieDetailsModel.swift */,
-				2414995F236ECF0F0070F500 /* MoviesDBModel.swift */,
 				24149932236EC6DD0070F500 /* Main.storyboard */,
 				2414995D236ECDC10070F500 /* MovieTableViewCell.swift */,
 				240DD5BC2370633E000E1D32 /* MovieInfoCollectionViewCell.swift */,

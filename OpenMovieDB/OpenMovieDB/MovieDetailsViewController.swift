@@ -8,30 +8,29 @@
 
 import UIKit
 
-class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, MoviesDBModelDelegate {
+class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, MovieDetailsModelDelegate {
 
-    var movieDBModel = MoviesDBModel()
+    var movieDetailsModel = MovieDetailsModel()
     
     @IBOutlet weak var movieInfoCollectionView: UICollectionView!
-    
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
         //get movie details from model
         self.movieInfoCollectionView.delegate = self
         self.movieInfoCollectionView.dataSource = self
-        self.movieDBModel.delegate = self
+        self.movieDetailsModel.delegate = self
     }
     
     //get number of cells from model
     func collectionView(_ collectionView: UICollectionView, numberOfItemsInSection section: Int) -> Int {
-        return self.movieDBModel.details.count
+        return self.movieDetailsModel.details.count
     }
     
     //create cell and return
     func collectionView(_ collectionView: UICollectionView, cellForItemAt indexPath: IndexPath) -> UICollectionViewCell {
         //get param name from model
-        let currParam = self.movieDBModel.paramsOrder[indexPath.row]
+        let currParam = self.movieDetailsModel.paramsOrder[indexPath.row]
         //if poster - create an Image cell
         if currParam == "Poster" {
             return self.createPosterCell(at: indexPath)
@@ -39,7 +38,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
         let cell = self.movieInfoCollectionView.dequeueReusableCell(withReuseIdentifier: "movieDetailCell", for: indexPath) as! MovieInfoCollectionViewCell
         //get param info
         cell.paramLabel.text = currParam
-        guard let currInfo = self.movieDBModel.details[currParam] as? String
+        guard let currInfo = self.movieDetailsModel.details[currParam] as? String
             else {
                 return cell
             }
@@ -49,8 +48,8 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
     
     private func createPosterCell(at index: IndexPath) -> UICollectionViewCell {
         let cell = self.movieInfoCollectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: index) as! ImageCollectionViewCell
-        let param = self.movieDBModel.paramsOrder[index.row]
-        if let url = self.movieDBModel.details[param] {
+        let param = self.movieDetailsModel.paramsOrder[index.row]
+        if let url = self.movieDetailsModel.details[param] {
             self.downloadImage(from: URL(string: url as! String)!, into: cell)
         }
         return cell

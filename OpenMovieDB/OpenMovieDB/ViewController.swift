@@ -24,13 +24,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         self.moviesSearckBar.delegate = self
         self.movieDBModel.delegate = self
     }
-
-    
-//    var movies = MoviesDBModel().movies {
-//        didSet {
-//            self.moviesTableView.reloadData()
-//        }
-//    }
     
     /*
      table view
@@ -57,6 +50,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         cell.movieTitle?.text = movie.title
         cell.movieYear?.text = movie.year
+        cell.movieID = movie.imdbID
         return cell
     }
     
@@ -66,10 +60,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return 100;
     }
     
-    //when row is selected - ask model to fetch data
-    func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
-        self.movieDBModel.fetchMovieData(at: indexPath.row)
-    }
     
     //get image by url into cell
     //from: https://stackoverflow.com/a/27712427
@@ -91,11 +81,6 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-//    //Create a method with a completion handler to get the image data from your url
-//    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-//        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
-//    }
-    
     /*
      search bar
      */
@@ -116,7 +101,10 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             if let movieName = movieCell.movieTitle.text {
                 if let destinationVC = segue.destination as? MovieDetailsViewController {
                     destinationVC.title = movieName
-                    destinationVC.movieDBModel = self.movieDBModel
+                    let id = self.movieDBModel.movies.filter({
+                        $0.imdbID == movieCell.movieID
+                    })[0].imdbID
+                    destinationVC.movieDetailsModel = MovieDetailsModel(id)                    
                 }
             }
         }
