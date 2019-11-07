@@ -63,16 +63,19 @@ class MovieDetailsSource: MovieDetailsAPIDelegate {
             {
                 if let currInfo = paramValue as? [[String: String]] {
                     var paramValueAsString = ""
-                    for dic in currInfo { //res is [String: String]
-                        //sort dictionary ao all dictionaries will be the same order
+                    //go through each dictionary
+                    for dic in currInfo {
+                        //sort dictionary by key so all dictionaries will be the same order
                         let sortedKeysAndValues = (dic.sorted(by: { $0.0 < $1.0 } ))
                         //convert to string: Key1: Value1 Key2: Value2
+                        //from https://stackoverflow.com/a/38786978
                         let resString = (sortedKeysAndValues.compactMap({ (dicKey, dicValue) -> String in
                             return "\(dicKey): \(dicValue)"
                         }) as Array).joined(separator: " ")
                         paramValueAsString.append(resString+"\n")
                     }
                     //add string that represents dictionary as current param valus
+                    //("key1: value1, Key2: value2" for each dictionary seperated by \n)
                     resultDetails[param] = paramValueAsString
                 }
             }
@@ -80,8 +83,14 @@ class MovieDetailsSource: MovieDetailsAPIDelegate {
         self.details = resultDetails
         self.delegate?.movieDetailsUpdate()
     }
+    
+    //MovieDetailsAPIDelegate - got error - send to delegate
+    func handleError(error: String) {
+        self.delegate?.handleError(error: error)
+    }
 }
 
 protocol MovieDetailsModelDelegate {
     func movieDetailsUpdate()
+    func handleError(error: String)
 }

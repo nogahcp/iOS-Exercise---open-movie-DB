@@ -63,10 +63,16 @@ class MoviesDataSource: MoviesAPIDelegate {
         self.numberOfRemainingResults = totalResults
     }
     
+    //MoviesAPIDelegate - when got error - senf to delegate
+    func handleError(error: String) {
+        self.delegate?.handleError(error: error)
+    }
+    
 }
 
 protocol MoviesDBModelDelegate {
     func moviesDidChange()
+    func handleError(error: String)
 }
 
 

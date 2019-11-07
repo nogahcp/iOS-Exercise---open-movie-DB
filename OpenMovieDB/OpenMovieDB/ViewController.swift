@@ -12,6 +12,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     @IBOutlet weak var moviesTableView: UITableView!
     @IBOutlet weak var moviesSearckBar: UISearchBar!
+    @IBOutlet weak var errorLabel: UILabel!
     
     //model - fetch and contains the data
     var movieDBModel = MoviesDataSource()
@@ -35,6 +36,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //return cell for row
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
+        //remove error if exist
+        self.errorLabel.isHidden = true
         let cell = self.moviesTableView.dequeueReusableCell(withIdentifier: "movieCell") as! MovieTableViewCell
         guard indexPath.row < self.movieDBModel.movies.count else {
             return cell;
@@ -122,12 +125,12 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
     
-    //movieDBModel delegate method - alert user on error
+    //movieDBModel delegate method - show error to user
     func handleError(error: String) {
-        let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
-        alert.addAction(UIAlertAction(title: "close", style: .default, handler: nil))
-        
-        self.present(alert, animated: true, completion: nil)
+        DispatchQueue.main.async {
+            self.errorLabel.text = error
+            self.errorLabel.isHidden = false
+        }
     }
 }
 

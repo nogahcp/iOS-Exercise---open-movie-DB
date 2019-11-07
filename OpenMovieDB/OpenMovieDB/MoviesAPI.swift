@@ -50,6 +50,10 @@ class MoviesAPI {
             var json = try JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : Any]
             //if no data retreived - if first page show nothing, show what exist
             guard json?["Response"]! as! String == "True" else {
+                //if data contains error - sent to delegate
+                if let erorrMessage = json?["Error"] as? String {
+                    self.delegate?.handleError(error: erorrMessage)
+                }
                 if page == 1 {
                     return []
                 }
@@ -77,7 +81,8 @@ class MoviesAPI {
             return movies
         }
         catch let error {
-            print(error.localizedDescription)
+//            print(error.localizedDescription)
+            self.delegate?.handleError(error: error.localizedDescription)
         }
         return movies
     }
@@ -90,7 +95,7 @@ class MoviesAPI {
             guard let data = data else { return }
             print(String(data: data, encoding: .utf8)!)
             //update data from response
-            var movieDetails = self.updateMovieDetails(from: data)
+            let movieDetails = self.updateMovieDetails(from: data)
             self.detailsDelegate?.movieDetailsResults(details: movieDetails)
         }
         task.resume()
@@ -107,7 +112,7 @@ class MoviesAPI {
             return details
         }
         catch let error {
-            print(error.localizedDescription)
+            self.detailsDelegate?.handleError(error: error.localizedDescription)
         }
         return [:]
     }
@@ -116,8 +121,10 @@ class MoviesAPI {
 protocol MoviesAPIDelegate {
     func fetchResults(moviesResult: [Movie])
     func numberOfResults(totalResults: Int)
+    func handleError(error: String)
 }
 
 protocol MovieDetailsAPIDelegate {
     func movieDetailsResults(details: [String: Any])
+    func handleError(error: String)
 }

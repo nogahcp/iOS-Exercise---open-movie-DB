@@ -94,4 +94,11 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
         }
     }
 
+    //MovieDetailsModelDelegate got error - inform user
+    func handleError(error: String) {
+        let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "close", style: .default, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
 }

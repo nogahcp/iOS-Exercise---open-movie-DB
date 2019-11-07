@@ -22,6 +22,7 @@
                             <tableView clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="-1" estimatedRowHeight="-1" sectionHeaderHeight="28" sectionFooterHeight="28" translatesAutoresizingMaskIntoConstraints="NO" id="k1N-lO-19z">
                                 <rect key="frame" x="0.0" y="144" width="414" height="752"/>
                                 <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <color key="separatorColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                 <prototypes>
                                     <tableViewCell clipsSubviews="YES" contentMode="scaleToFill" preservesSuperviewLayoutMargins="YES" selectionStyle="default" indentationWidth="10" reuseIdentifier="movieCell" rowHeight="84" id="aPh-ye-Q1h" customClass="MovieTableViewCell" customModule="OpenMovieDB" customModuleProvider="target">
                                         <rect key="frame" x="0.0" y="28" width="414" height="84"/>
@@ -79,6 +80,13 @@
                                     </tableViewCell>
                                 </prototypes>
                             </tableView>
+                            <label hidden="YES" opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Error Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="4YH-B1-DlR">
+                                <rect key="frame" x="160" y="436" width="94" height="24"/>
+                                <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="20"/>
+                                <nil key="textColor"/>
+                                <nil key="highlightedColor"/>
+                            </label>
                             <searchBar contentMode="redraw" searchBarStyle="minimal" placeholder="Enter Movie Name" translatesAutoresizingMaskIntoConstraints="NO" id="uf6-TN-hU7">
                                 <rect key="frame" x="0.0" y="88" width="414" height="56"/>
                                 <color key="barTintColor" white="1" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
@@ -90,8 +98,10 @@
                             <constraint firstItem="k1N-lO-19z" firstAttribute="top" secondItem="uf6-TN-hU7" secondAttribute="bottom" id="0bK-es-gcA"/>
                             <constraint firstItem="k1N-lO-19z" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="7zS-NX-Pym"/>
                             <constraint firstItem="uf6-TN-hU7" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="NNj-cr-14I"/>
+                            <constraint firstItem="4YH-B1-DlR" firstAttribute="centerX" secondItem="8bC-Xf-vdC" secondAttribute="centerX" id="Ne3-VW-W78"/>
                             <constraint firstItem="uf6-TN-hU7" firstAttribute="leading" secondItem="6Tk-OE-BBY" secondAttribute="leading" id="QvA-2z-jaJ"/>
                             <constraint firstItem="uf6-TN-hU7" firstAttribute="top" secondItem="6Tk-OE-BBY" secondAttribute="top" id="WEI-qe-fMb"/>
+                            <constraint firstItem="4YH-B1-DlR" firstAttribute="centerY" secondItem="8bC-Xf-vdC" secondAttribute="centerY" id="ZcE-A4-oFU"/>
                             <constraint firstItem="k1N-lO-19z" firstAttribute="top" secondItem="uf6-TN-hU7" secondAttribute="bottom" id="Zdy-hm-g6V"/>
                             <constraint firstItem="k1N-lO-19z" firstAttribute="trailing" secondItem="6Tk-OE-BBY" secondAttribute="trailing" id="hwd-Xj-L26"/>
                             <constraint firstAttribute="bottom" secondItem="k1N-lO-19z" secondAttribute="bottom" id="yIV-4C-Zyl"/>
@@ -100,6 +110,7 @@
                     </view>
                     <navigationItem key="navigationItem" id="LsE-C7-R40"/>
                     <connections>
+                        <outlet property="errorLabel" destination="4YH-B1-DlR" id="aYk-Mn-yz7"/>
                         <outlet property="moviesSearckBar" destination="uf6-TN-hU7" id="Xnm-Ap-XgY"/>
                         <outlet property="moviesTableView" destination="k1N-lO-19z" id="zhb-Lk-VK2"/>
                     </connections>
