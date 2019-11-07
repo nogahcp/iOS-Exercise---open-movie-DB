@@ -43,8 +43,22 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
                 return cell
             }
         cell.infoLabel.text = currInfo
-        cell.updateCellHeight()
+        //add tap gesture
+        cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap(_:))))
         return cell
+    }
+    
+    @objc func tap(_ sender: UITapGestureRecognizer) {
+        //get cell
+        let location = sender.location(in: self.movieInfoCollectionView)
+        let indexPath = self.movieInfoCollectionView.indexPathForItem(at: location)
+        let cell = self.movieInfoCollectionView.cellForItem(at: indexPath!) as? MovieInfoCollectionViewCell
+        //show alert with cell info
+        let alert = UIAlertController(title: cell?.paramLabel.text, message: cell?.infoLabel.text, preferredStyle: .alert)
+        
+        alert.addAction(UIAlertAction(title: "close", style: .default, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
     }
     
     private func createPosterCell(at index: IndexPath) -> UICollectionViewCell {

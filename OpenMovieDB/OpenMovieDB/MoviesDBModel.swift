@@ -12,7 +12,10 @@ class MoviesDBModel {
     //class properties
     private var searchUrl: URL? {
         get {
-            return URL(string: self.urlString)
+            if let encodedURL = self.urlString.addingPercentEncoding(withAllowedCharacters: .urlQueryAllowed), let url = URL(string: encodedURL) {
+                return url
+            }
+            return nil
         }
     }
     static let APIKey = "b3db097d"

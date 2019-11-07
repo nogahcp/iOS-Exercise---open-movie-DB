@@ -11,7 +11,7 @@ import Foundation
 class MovieDetailsModel {
     var delegate: MovieDetailsModelDelegate? = nil
     //keep all relevant params for the controller
-    var paramsOrder = ["Title", "Poster", "Year", "Genre"]
+    var paramsOrder = ["Poster", "Title", "Year", "Genre"]
     //contains current movie full details
 //    var detailedMovie: Movie? {
 //        didSet {
@@ -68,7 +68,7 @@ class MovieDetailsModel {
         do {
             //create new movies array
             self.details = [:]
-            self.paramsOrder = ["Title", "Poster", "Year", "Genre"]
+            self.paramsOrder = ["Poster", "Title", "Year", "Genre"]
             //convert data to json
             self.details = try (JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : Any])!
             //remove NA info
