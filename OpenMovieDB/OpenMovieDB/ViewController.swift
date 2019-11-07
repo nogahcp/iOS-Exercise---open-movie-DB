@@ -73,7 +73,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.imageSpiningWheel.startAnimating()
         print("Download Started")
         url.getData(from: url) { data, response, error in
-            guard let data = data, error == nil else { return }
+            guard let data = data, error == nil else {
+                //if download image did not succeed - put placeholder
+                DispatchQueue.main.async() {
+                    cell.movieImage.image = UIImage(named: "imagePlaceHolder")
+                    //remove spining wheel
+                    cell.imageSpiningWheel.stopAnimating()
+                    cell.imageSpiningWheel.isHidden = true
+                }
+                return
+            }
             print(response?.suggestedFilename ?? url.lastPathComponent)
             print("Download Finished")
             DispatchQueue.main.async() {
@@ -96,6 +105,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         //if search is clean, clean results
         if searchText.count == 0 {
+            self.errorLabel.text = ""
             self.movieDBModel.searchMovies(for: "")
         }
     }

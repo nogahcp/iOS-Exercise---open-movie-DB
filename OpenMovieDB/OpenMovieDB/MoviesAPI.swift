@@ -92,7 +92,13 @@ class MoviesAPI {
         //get movie detailed data
         let detailsUrl = self.getMovieDetailsUrlString(id: movieIMDBId)
         let task = URLSession.shared.dataTask(with: detailsUrl!) {(data, response, error) in
-            guard let data = data else { return }
+            guard let data = data else {
+                //on error senf to delegate
+                if let errorMessege = error?.localizedDescription {
+                    self.detailsDelegate?.handleError(error: errorMessege)
+                }
+                return
+            }
             print(String(data: data, encoding: .utf8)!)
             //update data from response
             let movieDetails = self.updateMovieDetails(from: data)
@@ -107,6 +113,10 @@ class MoviesAPI {
         do {
             //convert data to json
             var details = try (JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : Any])!
+            //check if error - notify delegate
+            if let errorMessege = details["Error"] as? String {
+                self.detailsDelegate?.handleError(error: errorMessege)
+            }
             //remove NA info
             details = details.filter { $0.value as? String != "N/A" }
             return details

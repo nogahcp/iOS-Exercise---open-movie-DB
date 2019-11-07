@@ -64,6 +64,10 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
         if let url = self.movieDetailsModel.details[param] {
             self.downloadImage(from: URL(string: url as! String)!, into: cell)
         }
+        //if no image url - put placeholder
+        else {
+            self.putPlaceHolderInCell(cell: cell)
+        }
         return cell
     }
     
@@ -82,7 +86,11 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
         cell.spinningWheel.startAnimating()
         print("Download Started")
         url.getData(from: url) { data, response, error in
-            guard let data = data, error == nil else { return }
+            //if download did not succeed - put placeholder
+            guard let data = data, error == nil else {
+                self.putPlaceHolderInCell(cell: cell)
+                return
+            }
             print(response?.suggestedFilename ?? url.lastPathComponent)
             print("Download Finished")
             DispatchQueue.main.async() {
@@ -94,6 +102,16 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
         }
     }
 
+    private func putPlaceHolderInCell(cell: ImageCollectionViewCell) {
+        //if download image did not succeed - put placeholder
+        DispatchQueue.main.async() {
+            cell.imageView.image = UIImage(named: "imagePlaceHolder")
+            //remove spining wheel
+            cell.spinningWheel.stopAnimating()
+            cell.spinningWheel.isHidden = true
+        }
+    }
+    
     //MovieDetailsModelDelegate got error - inform user
     func handleError(error: String) {
         let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
