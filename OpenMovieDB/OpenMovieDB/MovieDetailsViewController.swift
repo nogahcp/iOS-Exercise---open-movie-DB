@@ -10,7 +10,7 @@ import UIKit
 
 class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UICollectionViewDataSource, MovieDetailsModelDelegate {
 
-    var movieDetailsModel = MovieDetailsModel()
+    var movieDetailsModel = MovieDetailsSource()
     
     @IBOutlet weak var movieInfoCollectionView: UICollectionView!
     override func viewDidLoad() {
@@ -44,10 +44,10 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
         }
         //if info is not string - convert to array
         else {
-            var infoString = ""
+            _ = ""
             if let infoArr = self.movieDetailsModel.details[currParam] as? [[String: Any?]] {
                 //go through each info and add to description
-                for info in infoArr {
+                for _ in infoArr {
 //                    if let currInfo = info as  {
 //                        infoString.append(<#T##other: String##String#>)
 //                    }

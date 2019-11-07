@@ -14,7 +14,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var moviesSearckBar: UISearchBar!
     
     //model - fetch and contains the data
-    var movieDBModel = MoviesDBModel()
+    var movieDBModel = MoviesDataSource()
     
     
     override func viewDidLoad() {
@@ -109,7 +109,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
                     let id = self.movieDBModel.movies.filter({
                         $0.imdbID == movieCell.movieID
                     })[0].imdbID
-                    destinationVC.movieDetailsModel = MovieDetailsModel(id)                    
+                    destinationVC.movieDetailsModel = MovieDetailsSource(id)                    
                 }
             }
         }
@@ -119,7 +119,16 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     func moviesDidChange() {
         DispatchQueue.main.async {
             self.moviesTableView.reloadData()
-    }    }
+        }
+    }
+    
+    //movieDBModel delegate method - alert user on error
+    func handleError(error: String) {
+        let alert = UIAlertController(title: "Error", message: error, preferredStyle: .alert)
+        alert.addAction(UIAlertAction(title: "close", style: .default, handler: nil))
+        
+        self.present(alert, animated: true, completion: nil)
+    }
 }
 
 extension URL {
