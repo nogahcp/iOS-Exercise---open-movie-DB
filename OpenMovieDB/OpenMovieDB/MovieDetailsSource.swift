@@ -20,11 +20,7 @@ class MovieDetailsSource: MovieDetailsAPIDelegate {
         }
     }
     //contains current selected movie details (in a key, value form)
-    var details: [String: Any] = [:] {
-        didSet {
-            delegate?.movieDetailsUpdate()
-        }
-    }
+    var details: [String: Any] = [:]
 
     init(_ id: String) {
         self.movieIMDBId = id
@@ -35,31 +31,6 @@ class MovieDetailsSource: MovieDetailsAPIDelegate {
     init() {
         
     }
-    
-//    //get response from server and update movies details
-//    private func updateMovieDetails(from data: Data) {
-//        do {
-//            //create new movies array
-//            self.details = [:]
-//            self.paramsOrder = ["Poster", "Title", "Year", "Genre"]
-//            //convert data to json
-//            self.details = try (JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : Any])!
-//            //remove NA info
-//            self.details = self.details.filter { $0.value as? String != "N/A" }
-//            //add params name to array
-//            Array(self.details.keys).forEach({
-//                if !self.paramsOrder.contains($0) {
-//                    self.paramsOrder.append($0)
-//                }
-//            })
-//            //remove response from params and details
-//            if let index = self.paramsOrder.firstIndex(of: "Response") { self.paramsOrder.remove(at: index) }
-//            if let index = self.details.index(forKey: "Response") { self.details.remove(at: index) }
-//        }
-//        catch let error {
-//            print(error.localizedDescription)
-//        }
-//    }
     
     //MovieDetailsAPIDelegate - retrieve movie details from API
     func movieDetailsResults(details: [String : Any]) {
@@ -75,6 +46,39 @@ class MovieDetailsSource: MovieDetailsAPIDelegate {
         //remove response from params and details
         if let index = self.paramsOrder.firstIndex(of: "Response") { self.paramsOrder.remove(at: index) }
         if let index = self.details.index(forKey: "Response") { self.details.remove(at: index) }
+        //parse details into [String:String] dictionary
+        self.parseDetails()
+    }
+    
+    //parse details from [String:Any] to a [String: Satring] dictionary
+    private func parseDetails() {
+        var resultDetails: [String: String] = [:]
+        for (param, paramValue) in self.details {
+            //try convert value to string (most values)
+            if let currInfo = paramValue as? String {
+                resultDetails[param] = currInfo
+            }
+            //if did not convert to string try convert to array of dictionaries (in scores)
+            else
+            {
+                if let currInfo = paramValue as? [[String: String]] {
+                    var paramValueAsString = ""
+                    for dic in currInfo { //res is [String: String]
+                        //sort dictionary ao all dictionaries will be the same order
+                        let sortedKeysAndValues = (dic.sorted(by: { $0.0 < $1.0 } ))
+                        //convert to string: Key1: Value1 Key2: Value2
+                        let resString = (sortedKeysAndValues.compactMap({ (dicKey, dicValue) -> String in
+                            return "\(dicKey): \(dicValue)"
+                        }) as Array).joined(separator: " ")
+                        paramValueAsString.append(resString+"\n")
+                    }
+                    //add string that represents dictionary as current param valus
+                    resultDetails[param] = paramValueAsString
+                }
+            }
+        }
+        self.details = resultDetails
+        self.delegate?.movieDetailsUpdate()
     }
 }
 

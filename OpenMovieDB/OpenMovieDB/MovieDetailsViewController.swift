@@ -33,26 +33,13 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
         let currParam = self.movieDetailsModel.paramsOrder[indexPath.row]
         //if poster - create an Image cell
         if currParam == "Poster" {
-            return self.createPosterCell(at: indexPath)
+            return self.dequeueImageCell(at: indexPath)
         }
         let cell = self.movieInfoCollectionView.dequeueReusableCell(withReuseIdentifier: "movieDetailCell", for: indexPath) as! MovieInfoCollectionViewCell
         //get param info
         cell.paramLabel.text = currParam
-        if let currInfo = self.movieDetailsModel.details[currParam] as? String
-        {
-            cell.infoLabel.text = currInfo
-        }
-        //if info is not string - convert to array
-        else {
-            _ = ""
-            if let infoArr = self.movieDetailsModel.details[currParam] as? [[String: Any?]] {
-                //go through each info and add to description
-                for _ in infoArr {
-//                    if let currInfo = info as  {
-//                        infoString.append(<#T##other: String##String#>)
-//                    }
-                }
-            }
+        if let curInfo = self.movieDetailsModel.details[currParam] as? String {
+            cell.infoLabel.text = curInfo
         }
         //add tap gesture
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap(_:))))
@@ -71,7 +58,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
         self.present(alert, animated: true, completion: nil)
     }
     
-    private func createPosterCell(at index: IndexPath) -> UICollectionViewCell {
+    private func dequeueImageCell(at index: IndexPath) -> UICollectionViewCell {
         let cell = self.movieInfoCollectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: index) as! ImageCollectionViewCell
         let param = self.movieDetailsModel.paramsOrder[index.row]
         if let url = self.movieDetailsModel.details[param] {
