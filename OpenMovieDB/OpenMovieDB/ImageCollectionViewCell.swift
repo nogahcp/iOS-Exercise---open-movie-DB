@@ -12,9 +12,17 @@ class ImageCollectionViewCell: UICollectionViewCell {
     override func awakeFromNib() {
         super.awakeFromNib()
         // designe cell
+        self.updateImageView()
     }
     
     @IBOutlet weak var imageView: UIImageView!
     @IBOutlet weak var spinningWheel: UIActivityIndicatorView!
     
+    private func updateImageView() {
+
+//        self.frame.size = CGSize(width: 90, height: 90)
+        self.layer.cornerRadius = 8
+        self.imageView.layer.cornerRadius = 8
+        self.imageView.layer.masksToBounds = true
+    }
 }

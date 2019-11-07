@@ -46,21 +46,15 @@ class MovieDetailsModel {
     
     //get full details on spesific movie
     func fetchMovieData() {
-//        let movieToShow = self.movies[index]
-        //if current detailed movie is what we want - no need to request server
-//        if self.detailedMovie?.imdbID != movieToShow.imdbID {
-            //remove old detailed movie
-//            self.detailedMovie = nil
-            //get movie detailed data
-            let detailsUrl = self.getMovieDetailsUrlString(id: self.movieIMDBId)
-            let task = URLSession.shared.dataTask(with: detailsUrl!) {(data, response, error) in
-                guard let data = data else { return }
-                print(String(data: data, encoding: .utf8)!)
-                //update data from response
-                self.updateMovieDetails(from: data)
-            }
-            task.resume()
-//        }
+        //get movie detailed data
+        let detailsUrl = self.getMovieDetailsUrlString(id: self.movieIMDBId)
+        let task = URLSession.shared.dataTask(with: detailsUrl!) {(data, response, error) in
+            guard let data = data else { return }
+            print(String(data: data, encoding: .utf8)!)
+            //update data from response
+            self.updateMovieDetails(from: data)
+        }
+        task.resume()
     }
     
     //get response from server and update movies details
@@ -72,7 +66,7 @@ class MovieDetailsModel {
             //convert data to json
             self.details = try (JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : Any])!
             //remove NA info
-            self.details = self.details.filter { $0.value as? String != nil && $0.value as? String != "N/A" }
+            self.details = self.details.filter { $0.value as? String != "N/A" }
             //add params name to array
             Array(self.details.keys).forEach({
                 if !self.paramsOrder.contains($0) {

@@ -38,6 +38,7 @@ class MoviesDBModel {
     
     //new search using search string
     func searchMovies(for search: String) {
+        print("---> searchMovies")
         //trim white spaces and replace others with +
         self.search = search.trimmingCharacters(in: .whitespacesAndNewlines).replacingOccurrences(of: " ", with: "+")
         //new search - update page to 1
@@ -75,7 +76,12 @@ class MoviesDBModel {
                     tempArr.append(Movie(json: m as! [String : Any]) ?? Movie())
                 }
                 //copy movies to real array, if not first page - add to previus array
-                self.page == 1 ? self.movies = tempArr : self.movies.append(contentsOf: tempArr)
+                if self.page == 1 {
+                    self.movies = tempArr
+                }
+                else {
+                    self.movies.append(contentsOf: tempArr)
+                }
             }
             
         }

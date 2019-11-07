@@ -178,7 +178,7 @@
                                             <outlet property="paramLabel" destination="Hl0-yl-3VG" id="ap0-mt-zwx"/>
                                         </connections>
                                     </collectionViewCell>
-                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="imageCell" id="jvf-3f-V5S" customClass="ImageCollectionViewCell" customModule="OpenMovieDB" customModuleProvider="target">
+                                    <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleAspectFill" reuseIdentifier="imageCell" id="jvf-3f-V5S" customClass="ImageCollectionViewCell" customModule="OpenMovieDB" customModuleProvider="target">
                                         <rect key="frame" x="109" y="107" width="196" height="212"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
                                         <view key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" insetsLayoutMarginsFromSafeArea="NO">

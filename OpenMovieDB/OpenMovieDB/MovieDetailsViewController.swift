@@ -38,11 +38,22 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
         let cell = self.movieInfoCollectionView.dequeueReusableCell(withReuseIdentifier: "movieDetailCell", for: indexPath) as! MovieInfoCollectionViewCell
         //get param info
         cell.paramLabel.text = currParam
-        guard let currInfo = self.movieDetailsModel.details[currParam] as? String
-            else {
-                return cell
+        if let currInfo = self.movieDetailsModel.details[currParam] as? String
+        {
+            cell.infoLabel.text = currInfo
+        }
+        //if info is not string - convert to array
+        else {
+            var infoString = ""
+            if let infoArr = self.movieDetailsModel.details[currParam] as? [[String: Any?]] {
+                //go through each info and add to description
+                for info in infoArr {
+//                    if let currInfo = info as  {
+//                        infoString.append(<#T##other: String##String#>)
+//                    }
+                }
             }
-        cell.infoLabel.text = currInfo
+        }
         //add tap gesture
         cell.addGestureRecognizer(UITapGestureRecognizer(target: self, action: #selector(tap(_:))))
         return cell
@@ -55,7 +66,6 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
         let cell = self.movieInfoCollectionView.cellForItem(at: indexPath!) as? MovieInfoCollectionViewCell
         //show alert with cell info
         let alert = UIAlertController(title: cell?.paramLabel.text, message: cell?.infoLabel.text, preferredStyle: .alert)
-        
         alert.addAction(UIAlertAction(title: "close", style: .default, handler: nil))
         
         self.present(alert, animated: true, completion: nil)
