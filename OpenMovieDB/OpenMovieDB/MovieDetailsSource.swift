@@ -21,7 +21,8 @@ class MovieDetailsSource: MovieDetailsAPIDelegate {
     }
     //contains current selected movie details (in a key, value form)
     var details: [String: Any] = [:]
-
+    var update = false
+    
     init(_ id: String) {
         self.movieIMDBId = id
         self.moviesAPI.detailsDelegate = self
@@ -29,7 +30,7 @@ class MovieDetailsSource: MovieDetailsAPIDelegate {
     }
     
     init() {
-        
+        self.moviesAPI.detailsDelegate = self
     }
     
     //MovieDetailsAPIDelegate - retrieve movie details from API
@@ -82,6 +83,7 @@ class MovieDetailsSource: MovieDetailsAPIDelegate {
         }
         self.details = resultDetails
         self.delegate?.movieDetailsUpdate()
+        self.update = true
     }
     
     //MovieDetailsAPIDelegate - got error - send to delegate

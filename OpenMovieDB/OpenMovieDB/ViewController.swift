@@ -59,7 +59,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //return cell hight for row
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat {
-        //TODO: change!!
+        
         return 100;
     }
     
