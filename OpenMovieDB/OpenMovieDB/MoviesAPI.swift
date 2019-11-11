@@ -27,7 +27,7 @@ class MoviesAPI {
     }
     
     //fetch list of movies using the search string
-    func fetchData(search: String, page: Int, into movies: [Movie]) {
+    func fetchSearchQuery(search: String, page: Int, into movies: [Movie]) {
         //update urlString
         self.urlString = "https://www.omdbapi.com/?s=\(search)&apikey=\(self.APIKey)&page=\(page)"
         //get data from server

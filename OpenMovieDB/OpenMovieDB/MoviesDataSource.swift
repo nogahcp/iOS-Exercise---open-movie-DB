@@ -44,7 +44,7 @@ class MoviesDataSource: MoviesAPIDelegate {
     
     //ask API to fetch movies according to search
     private func getMoviesFromServer() {
-        self.moviesAPI.fetchData(search: self.search, page: self.page, into: self.movies)
+        self.moviesAPI.fetchSearchQuery(search: self.search, page: self.page, into: self.movies)
     }
     
     //MoviesAPIDelegate - notify that movies result retreived

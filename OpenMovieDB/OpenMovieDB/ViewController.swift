@@ -17,7 +17,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     
     //model - fetch and contains the data
     var movieDBModel = MoviesDataSource()
-    
+    //images cache
+    var imagesCache = NSCache<NSString, UIImage>()
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -49,9 +50,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         let movie = self.movieDBModel.movies[indexPath.row]
         //set cell data
-        if let url = movie.posterImage {
-            self.downloadImage(from: url, into: cell)
-        }
+        self.setImage(for: movie, into: cell)
+
         cell.movieTitle?.text = movie.title
         cell.movieYear?.text = movie.year
         cell.movieID = movie.imdbID
@@ -64,6 +64,17 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         return 100;
     }
     
+    //set image into cell
+    private func setImage(for movie: Movie, into cell: MovieTableViewCell) {
+        //check if image is in cache
+        if let image = imagesCache.object(forKey: movie.posterImage?.absoluteString as! NSString) {
+            cell.movieImage.image = image
+        }
+        //if image is not in cache download it into cell and insert to cache
+        else if let url = movie.posterImage {
+            self.downloadImage(from: url, into: cell)
+        }
+    }
     
     //get image by url into cell
     //from: https://stackoverflow.com/a/27712427
@@ -78,21 +89,27 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
             guard let data = data, error == nil else {
                 //if download image did not succeed - put placeholder
                 DispatchQueue.main.async() {
-                    cell.movieImage.image = UIImage(named: "imagePlaceHolder")
-                    //remove spining wheel
-                    cell.imageSpiningWheel.stopAnimating()
-                    cell.imageSpiningWheel.isHidden = true
+                    self.insertImageToCellAndUpdateCache(image: UIImage(named: "imagePlaceHolder"), cell: cell, url: url)
                 }
                 return
             }
             print(response?.suggestedFilename ?? url.lastPathComponent)
             print("Download Finished")
             DispatchQueue.main.async() {
-                cell.movieImage.image = UIImage(data: data)
-                //remove spining wheel
-                cell.imageSpiningWheel.stopAnimating()
-                cell.imageSpiningWheel.isHidden = true
+                self.insertImageToCellAndUpdateCache(image: UIImage(data: data), cell: cell, url: url)
             }
+        }
+    }
+    
+    
+    private func insertImageToCellAndUpdateCache(image: UIImage?, cell: MovieTableViewCell, url: URL) {
+        cell.movieImage.image = image
+        //remove spining wheel
+        cell.imageSpiningWheel.stopAnimating()
+        cell.imageSpiningWheel.isHidden = true
+        //add image to cache
+        if image != nil {
+            self.imagesCache.setObject(image!, forKey: url.absoluteString as! NSString)
         }
     }
     
