@@ -13,6 +13,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
     var movieDetailsModel = MovieDetailsSource()
     
     @IBOutlet weak var movieInfoCollectionView: UICollectionView!
+    @IBOutlet weak var detailsSpinningWheel: UIActivityIndicatorView!
     override func viewDidLoad() {
         super.viewDidLoad()
         // Do any additional setup after loading the view.
@@ -20,6 +21,7 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
         self.movieInfoCollectionView.delegate = self
         self.movieInfoCollectionView.dataSource = self
         self.movieDetailsModel.delegate = self
+        detailsSpinningWheel.isHidden = false
     }
     
     //get number of cells from model
@@ -74,6 +76,8 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
     func movieDetailsUpdate() {
         DispatchQueue.main.async() {
             self.movieInfoCollectionView.reloadData()
+            //when movie details retrieve - hide spinning wheel
+            self.detailsSpinningWheel.isHidden = true
         }
     }
     

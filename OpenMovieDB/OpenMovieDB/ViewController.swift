@@ -13,6 +13,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     @IBOutlet weak var moviesTableView: UITableView!
     @IBOutlet weak var moviesSearckBar: UISearchBar!
     @IBOutlet weak var errorLabel: UILabel!
+    @IBOutlet weak var moviesSearchBar: UISearchBar!
     
     //model - fetch and contains the data
     var movieDBModel = MoviesDataSource()
@@ -72,6 +73,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         cell.imageSpiningWheel.isHidden = false
         cell.imageSpiningWheel.startAnimating()
         print("Download Started")
+        //try get image
         url.getData(from: url) { data, response, error in
             guard let data = data, error == nil else {
                 //if download image did not succeed - put placeholder
@@ -105,8 +107,8 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
         //if search is clean, clean results
         if searchText.count == 0 {
-            self.errorLabel.text = ""
             self.movieDBModel.searchMovies(for: "")
+            self.errorLabel.text = ""
         }
     }
 
@@ -138,8 +140,9 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     //movieDBModel delegate method - show error to user
     func handleError(error: String) {
         DispatchQueue.main.async {
+            //show error on screen. if no search - hide error
             self.errorLabel.text = error
-            self.errorLabel.isHidden = false
+            self.errorLabel.isHidden = self.moviesSearchBar.text?.count == 0 ? true : false
         }
     }
 }

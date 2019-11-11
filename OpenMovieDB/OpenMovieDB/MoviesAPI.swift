@@ -32,7 +32,11 @@ class MoviesAPI {
         self.urlString = "https://www.omdbapi.com/?s=\(search)&apikey=\(self.APIKey)&page=\(page)"
         //get data from server
         let task = URLSession.shared.dataTask(with: searchUrl!) {(data, response, error) in
-            guard let data = data else { return }
+            //send error if no data
+            guard let data = data else {
+                self.delegate?.handleError(error: error?.localizedDescription ?? "Error")
+                return
+            }
             print(String(data: data, encoding: .utf8)!)
             //update data from response
             let moviesResult = self.updateMovies(from: data, into: movies, at: page)

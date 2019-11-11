@@ -111,6 +111,7 @@
                     <navigationItem key="navigationItem" id="LsE-C7-R40"/>
                     <connections>
                         <outlet property="errorLabel" destination="4YH-B1-DlR" id="aYk-Mn-yz7"/>
+                        <outlet property="moviesSearchBar" destination="uf6-TN-hU7" id="SEh-fX-jqj"/>
                         <outlet property="moviesSearckBar" destination="uf6-TN-hU7" id="Xnm-Ap-XgY"/>
                         <outlet property="moviesTableView" destination="k1N-lO-19z" id="zhb-Lk-VK2"/>
                     </connections>
@@ -136,6 +137,10 @@
                                     <size key="footerReferenceSize" width="0.0" height="0.0"/>
                                     <inset key="sectionInset" minX="0.0" minY="0.0" maxX="0.0" maxY="0.0"/>
                                 </collectionViewFlowLayout>
+                                <activityIndicatorView key="backgroundView" opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" animating="YES" style="gray" id="OeZ-Cz-0dH">
+                                    <rect key="frame" x="0.0" y="0.0" width="414" height="774"/>
+                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                </activityIndicatorView>
                                 <cells>
                                     <collectionViewCell opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" reuseIdentifier="movieDetailCell" id="Ao6-cE-6cw" customClass="MovieInfoCollectionViewCell" customModule="OpenMovieDB" customModuleProvider="target">
                                         <rect key="frame" x="8" y="0.0" width="398" height="97"/>
@@ -233,6 +238,7 @@
                         <viewLayoutGuide key="safeArea" id="qGs-ob-dlF"/>
                     </view>
                     <connections>
+                        <outlet property="detailsSpinningWheel" destination="OeZ-Cz-0dH" id="mi9-AR-le5"/>
                         <outlet property="movieInfoCollectionView" destination="I55-As-AUI" id="9YB-Zn-K0Q"/>
                     </connections>
                 </viewController>
