@@ -7,6 +7,7 @@
 //
 
 import Foundation
+import Alamofire
 
 class MoviesAPI {
     private var searchUrl: URL? {
@@ -30,19 +31,26 @@ class MoviesAPI {
     func fetchSearchQuery(search: String, page: Int) {
         //update urlString
         self.urlString = "https://www.omdbapi.com/?s=\(search)&apikey=\(self.APIKey)&page=\(page)"
-        //get data from server
-        let task = URLSession.shared.dataTask(with: searchUrl!) {(data, response, error) in
-            //send error if no data
-            guard let data = data else {
-                self.delegate?.handleError(error: error?.localizedDescription ?? "Error")
-                return
-            }
-            print(String(data: data, encoding: .utf8)!)
-            //update data from response
-            let moviesResult = self.parseSearchQueryResponse(from: data, at: page)
-            self.delegate?.fetchResults(moviesResult: moviesResult)
+        //get data from server using alamofire
+        Alamofire.request(
+            self.searchUrl!,
+            method: .get
+            ).validate()
+            .responseJSON {
+                [weak self] response in
+                // 2
+                guard let strongSelf = self else { return }
+                // 3
+                guard response.result.isSuccess,
+                    let data = response.data else {
+                        strongSelf.delegate?.handleError(error: response.result.error?.localizedDescription ?? "Error")
+                        return
+                }
+                print(String(data: data, encoding: .utf8)!)
+                //update data from response
+                let moviesResult = strongSelf.parseSearchQueryResponse(from: data, at: page)
+                strongSelf.delegate?.fetchResults(moviesResult: moviesResult)
         }
-        task.resume()
     }
     
     //get response from server and update list of movies
@@ -83,25 +91,31 @@ class MoviesAPI {
     func fetchMovieData(by movieIMDBId: String) {
         //get movie detailed data
         let detailsUrl = self.getMovieDetailsUrlString(id: movieIMDBId)
-        let task = URLSession.shared.dataTask(with: detailsUrl!) {(data, response, error) in
-            guard let data = data else {
-                //on error senf to delegate
-                if let errorMessege = error?.localizedDescription {
-                    self.detailsDelegate?.handleError(error: errorMessege)
+        
+        Alamofire.request(
+            detailsUrl!,
+            method: .get
+            ).validate()
+            .responseJSON {
+                [weak self] response in
+                // 2
+                guard let strongSelf = self else { return }
+                // 3
+                guard response.result.isSuccess,
+                    let data = response.data else {
+                        strongSelf.detailsDelegate?.handleError(error: response.result.error?.localizedDescription ?? "Error")
+                        return
                 }
-                return
-            }
-            print(String(data: data, encoding: .utf8)!)
-            //update data from response
-            let movieDetails = self.updateMovieDetails(from: data)
-            self.detailsDelegate?.movieDetailsResults(details: movieDetails)
+                print(String(data: data, encoding: .utf8)!)
+                //update data from response
+                let movieDetails = strongSelf.parseSearchQueryResponse(from: data)
+                strongSelf.detailsDelegate?.movieDetailsResults(details: movieDetails)
         }
-        task.resume()
     }
     
     
     //get response from server and update movies details
-    private func updateMovieDetails(from data: Data) -> [String: Any] {
+    private func parseSearchQueryResponse(from data: Data) -> [String: Any] {
         do {
             //convert data to json
             var details = try (JSONSerialization.jsonObject(with: data, options: .mutableContainers) as? [String : Any])!
