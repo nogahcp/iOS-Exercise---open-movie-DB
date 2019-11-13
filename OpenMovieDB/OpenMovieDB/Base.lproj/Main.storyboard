@@ -37,10 +37,6 @@
                                                         <constraint firstAttribute="width" secondItem="GQV-63-hZc" secondAttribute="height" multiplier="300:446" id="Vuv-k0-nae"/>
                                                     </constraints>
                                                 </imageView>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" style="gray" translatesAutoresizingMaskIntoConstraints="NO" id="izZ-N3-nVy">
-                                                    <rect key="frame" x="18" y="31" width="20" height="20"/>
-                                                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                                </activityIndicatorView>
                                                 <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" distribution="equalSpacing" alignment="top" spacingType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="v9g-WO-6NO">
                                                     <rect key="frame" x="63.5" y="8" width="342.5" height="67.5"/>
                                                     <subviews>
@@ -71,7 +67,6 @@
                                             </constraints>
                                         </tableViewCellContentView>
                                         <connections>
-                                            <outlet property="imageSpiningWheel" destination="izZ-N3-nVy" id="Rna-JV-Obm"/>
                                             <outlet property="movieImage" destination="GQV-63-hZc" id="6a6-Uq-XAp"/>
                                             <outlet property="movieTitle" destination="5Sf-cL-kDh" id="oeP-vM-xD3"/>
                                             <outlet property="movieYear" destination="Hug-N9-xb2" id="1oY-06-Se4"/>
