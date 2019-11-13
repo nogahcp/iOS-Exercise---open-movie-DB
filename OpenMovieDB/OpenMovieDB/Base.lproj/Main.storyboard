@@ -200,15 +200,9 @@
                                                     <rect key="frame" x="0.0" y="0.0" width="196" height="212"/>
                                                     <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
                                                 </imageView>
-                                                <activityIndicatorView opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" hidesWhenStopped="YES" animating="YES" style="whiteLarge" translatesAutoresizingMaskIntoConstraints="NO" id="SFu-8d-wuE">
-                                                    <rect key="frame" x="79.5" y="87.5" width="37" height="37"/>
-                                                    <color key="color" white="0.33333333329999998" alpha="1" colorSpace="custom" customColorSpace="genericGamma22GrayColorSpace"/>
-                                                </activityIndicatorView>
                                             </subviews>
                                         </view>
                                         <constraints>
-                                            <constraint firstItem="SFu-8d-wuE" firstAttribute="centerY" secondItem="jvf-3f-V5S" secondAttribute="centerY" id="Ck4-iM-g83"/>
-                                            <constraint firstItem="SFu-8d-wuE" firstAttribute="centerX" secondItem="jvf-3f-V5S" secondAttribute="centerX" id="Guh-rr-vsi"/>
                                             <constraint firstItem="hfY-4F-4M5" firstAttribute="top" secondItem="jvf-3f-V5S" secondAttribute="top" id="Uze-ea-tIe"/>
                                             <constraint firstAttribute="bottom" secondItem="hfY-4F-4M5" secondAttribute="bottom" id="b3o-03-XiL"/>
                                             <constraint firstAttribute="trailing" secondItem="hfY-4F-4M5" secondAttribute="trailing" id="tyb-DY-GsP"/>
@@ -217,7 +211,6 @@
                                         <size key="customSize" width="196" height="212"/>
                                         <connections>
                                             <outlet property="imageView" destination="hfY-4F-4M5" id="Zyn-6V-xzo"/>
-                                            <outlet property="spinningWheel" destination="SFu-8d-wuE" id="LJu-6E-VzP"/>
                                         </connections>
                                     </collectionViewCell>
                                 </cells>

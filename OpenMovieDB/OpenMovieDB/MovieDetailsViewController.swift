@@ -63,12 +63,18 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
     private func dequeueImageCell(at index: IndexPath) -> UICollectionViewCell {
         let cell = self.movieInfoCollectionView.dequeueReusableCell(withReuseIdentifier: "imageCell", for: index) as! ImageCollectionViewCell
         let param = self.movieDetailsModel.paramsOrder[index.row]
+        //get image using Kingfisher
+        cell.imageView.kf.indicatorType = .activity
         if let url = self.movieDetailsModel.details[param] {
-            self.downloadImage(from: URL(string: url as! String)!, into: cell)
+            cell.imageView.kf.setImage(
+                with: URL(string: (url as! String)),
+                placeholder: UIImage(named: "imagePlaceHolder"),
+                options: [
+                ])
         }
-        //if no image url - put placeholder
+        //if no url set placeholder (details[param] is nil)
         else {
-            self.putPlaceHolderInCell(cell: cell)
+            cell.imageView.image = UIImage(named: "imagePlaceHolder")
         }
         return cell
     }
@@ -81,40 +87,6 @@ class MovieDetailsViewController: UIViewController, UICollectionViewDelegate, UI
         }
     }
     
-    //get image by url into cell
-    //from: https://stackoverflow.com/a/27712427
-    private func downloadImage(from url: URL, into cell: ImageCollectionViewCell) {
-        //if exist old image remove it, and add spining wheel
-        cell.imageView.image = nil
-        cell.spinningWheel.isHidden = false
-        cell.spinningWheel.startAnimating()
-        print("Download Started")
-        url.getData(from: url) { data, response, error in
-            //if download did not succeed - put placeholder
-            guard let data = data, error == nil else {
-                self.putPlaceHolderInCell(cell: cell)
-                return
-            }
-            print(response?.suggestedFilename ?? url.lastPathComponent)
-            print("Download Finished")
-            DispatchQueue.main.async() {
-                cell.imageView.image = UIImage(data: data)
-                //remove spining wheel
-                cell.spinningWheel.stopAnimating()
-                cell.spinningWheel.isHidden = true
-            }
-        }
-    }
-
-    private func putPlaceHolderInCell(cell: ImageCollectionViewCell) {
-        //if download image did not succeed - put placeholder
-        DispatchQueue.main.async() {
-            cell.imageView.image = UIImage(named: "imagePlaceHolder")
-            //remove spining wheel
-            cell.spinningWheel.stopAnimating()
-            cell.spinningWheel.isHidden = true
-        }
-    }
     
     //MovieDetailsModelDelegate got error - inform user
     func handleError(error: String) {

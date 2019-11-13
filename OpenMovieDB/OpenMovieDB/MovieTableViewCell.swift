@@ -17,7 +17,6 @@ class MovieTableViewCell: UITableViewCell {
     @IBOutlet weak var movieImage: UIImageView!
     @IBOutlet weak var movieTitle: UILabel!
     @IBOutlet weak var movieYear: UILabel!
-    //@IBOutlet weak var imageSpiningWheel: UIActivityIndicatorView!
     var movieID: String = ""
     
     override func setSelected(_ selected: Bool, animated: Bool) {
