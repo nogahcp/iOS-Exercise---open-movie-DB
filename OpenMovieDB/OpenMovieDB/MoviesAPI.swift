@@ -27,7 +27,7 @@ class MoviesAPI {
     }
     
     //fetch list of movies using the search string
-    func fetchSearchQuery(search: String, page: Int, into movies: [Movie]) {
+    func fetchSearchQuery(search: String, page: Int) {
         //update urlString
         self.urlString = "https://www.omdbapi.com/?s=\(search)&apikey=\(self.APIKey)&page=\(page)"
         //get data from server
@@ -39,14 +39,14 @@ class MoviesAPI {
             }
             print(String(data: data, encoding: .utf8)!)
             //update data from response
-            let moviesResult = self.updateMovies(from: data, into: movies, at: page)
+            let moviesResult = self.parseSearchQueryResponse(from: data, at: page)
             self.delegate?.fetchResults(moviesResult: moviesResult)
         }
         task.resume()
     }
     
     //get response from server and update list of movies
-    private func updateMovies(from data: Data, into movies: [Movie], at page: Int) -> [Movie] {
+    private func parseSearchQueryResponse(from data: Data, at page: Int) -> [Movie] {
         do {
             //create new movies array
             var tempArr: [Movie] = []
@@ -58,37 +58,25 @@ class MoviesAPI {
                 if let erorrMessage = json?["Error"] as? String {
                     self.delegate?.handleError(error: erorrMessage)
                 }
-                if page == 1 {
-                    return []
-                }
-                return movies
+                return []
             }
             //go throw all returned movies and add to list
             if let jsonMovies = json?["Search"] as? [Any] {
                 for m in jsonMovies {
                     tempArr.append(Movie(json: m as! [String : Any]) ?? Movie())
                 }
-                //copy movies to real array, if not first page - add to previus array
-                if page == 1 {
-                    //notify delegate on number of results
-                    if let totalResults = Int((json?["totalResults"] as? String)!) {
-                        self.delegate?.numberOfResults(totalResults: totalResults)
-                    }
-                    return tempArr
+                //notify delegate on number of results
+                if let totalResults = Int((json?["totalResults"] as? String)!) {
+                    self.delegate?.numberOfResults(totalResults: totalResults)
                 }
-                else {
-                    var copy = movies
-                    copy.append(contentsOf: tempArr)
-                    return copy
-                }
+                return tempArr
             }
-            return movies
+            return []
         }
         catch let error {
-//            print(error.localizedDescription)
             self.delegate?.handleError(error: error.localizedDescription)
         }
-        return movies
+        return []
     }
     
     //get full details on spesific movie

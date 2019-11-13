@@ -44,7 +44,7 @@ class MoviesDataSource: MoviesAPIDelegate {
     
     //ask API to fetch movies according to search
     private func getMoviesFromServer() {
-        self.moviesAPI.fetchSearchQuery(search: self.search, page: self.page, into: self.movies)
+        self.moviesAPI.fetchSearchQuery(search: self.search, page: self.page)
     }
     
     //MoviesAPIDelegate - notify that movies result retreived
@@ -52,8 +52,13 @@ class MoviesDataSource: MoviesAPIDelegate {
         //reduce number of new results from "numberOfRemainingResults"
         let reduce = self.movies.count - moviesResult.count
         self.numberOfRemainingResults += reduce
-        
-        self.movies = moviesResult
+        //if first page put results in movies array, if not first page append it
+        if self.page == 1 {
+            self.movies = moviesResult
+        }
+        else {
+            self.movies.append(contentsOf: moviesResult)
+        }
         //notify delegate about change
         delegate?.moviesDidChange()
     }
