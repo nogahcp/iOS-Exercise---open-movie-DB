@@ -128,10 +128,3 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
         }
     }
 }
-
-extension URL {
-    //from: https://stackoverflow.com/a/27712427 Create a method with a completion handler to get the image data from url
-    func getData(from url: URL, completion: @escaping (Data?, URLResponse?, Error?) -> ()) {
-        URLSession.shared.dataTask(with: url, completionHandler: completion).resume()
-    }
-}
