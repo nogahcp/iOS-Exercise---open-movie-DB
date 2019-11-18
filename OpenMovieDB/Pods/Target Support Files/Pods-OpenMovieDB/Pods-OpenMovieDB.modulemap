@@ -1,0 +1,6 @@
+framework module Pods_OpenMovieDB {
+  umbrella header "Pods-OpenMovieDB-umbrella.h"
+
+  export *
+  module * { export * }
+}
